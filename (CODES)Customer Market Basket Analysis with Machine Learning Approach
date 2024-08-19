@@ -1,0 +1,198 @@
+GRADIENT BOOSTING MACHINE:
+
+import pandas as pd
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import classification_report
+
+# Load the dataset
+file_path = '/content/drive/MyDrive/customer_market_basket_data.csv'  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# Preprocessing: Assuming all non-numeric columns are categorical
+non_numeric_cols = data.select_dtypes(include=['object']).columns.tolist()
+data_encoded = pd.get_dummies(data, columns=non_numeric_cols)
+
+# Assuming the last column is the target variable and rest are features
+X = data_encoded.iloc[:, :-1]  # Features
+y = data_encoded.iloc[:, -1]   # Target variable
+
+# Initialize GBM classifier with reduced complexity
+gbm = GradientBoostingClassifier(n_estimators=30, learning_rate=0.001, max_depth=3, random_state=0)  # Adjust parameters
+
+# Perform cross-validation
+cv_scores = cross_val_score(gbm, X, y, cv=5)
+
+# Display cross-validation scores
+print("Cross-Validation Scores:", cv_scores)
+print("Mean CV Accuracy:", cv_scores.mean())
+
+# Splitting the dataset into training and testing sets (adjust test_size as needed)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the model on the entire training set
+gbm.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = gbm.predict(X_test)
+
+# Evaluate the model
+print("Evaluation on Test Set:")
+print(classification_report(y_test, y_pred))
+=======================================================================================================================================================================================================
+K-NEAREST NIEGHBOUR CLASSIFIER:
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load the dataset
+file_path = '/content/drive/MyDrive/customer_market_basket_data.csv'  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# Preprocessing: Assuming all non-numeric columns are categorical
+non_numeric_cols = data.select_dtypes(include=['object']).columns.tolist()
+data_encoded = pd.get_dummies(data, columns=non_numeric_cols)
+
+# Assuming the last column is the target variable and rest are features
+X = data_encoded.iloc[:, :-1]  # Features
+y = data_encoded.iloc[:, -1]   # Target variable
+
+# Splitting the dataset into training and testing sets (adjust test_size as needed)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.002, random_state=42)
+
+# Initialize KNN classifier
+knn = KNeighborsClassifier(n_neighbors=5, weights='uniform')  # Adjust parameters
+
+# Train the model
+knn.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = knn.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print(classification_report(y_test, y_pred))s
+============================================================================================================================================================================================================
+LOGISTIC REGRESSION ALGORITHM:
+
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load the dataset
+file_path = '/content/drive/MyDrive/customer_market_basket_data.csv'  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# Preprocessing: Assuming all non-numeric columns are categorical
+non_numeric_cols = data.select_dtypes(include=['object']).columns.tolist()
+data_encoded = pd.get_dummies(data, columns=non_numeric_cols)
+
+# Assuming the last column is the target variable and rest are features
+X = data_encoded.iloc[:, :-1]  # Features
+y = data_encoded.iloc[:, -1]   # Target variable
+
+# Splitting the dataset into training and testing sets (adjust test_size as needed)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=0)
+
+# Initialize Logistic Regression model
+logreg = LogisticRegression(random_state=0, max_iter=50)  # Adjust parameters if needed
+
+# Train the model
+logreg.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = logreg.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print(classification_report(y_test, y_pred))
+=============================================================================================================================================================================================================
+SUPPORT VECTOR MACHINE:
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load the dataset
+file_path = '/content/drive/MyDrive/customer_market_basket_data.csv'  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# Preprocessing: Assuming all non-numeric columns are categorical
+non_numeric_cols = data.select_dtypes(include=['object']).columns.tolist()
+data_encoded = pd.get_dummies(data, columns=non_numeric_cols)
+
+# Assuming the last column is the target variable and rest are features
+X = data_encoded.iloc[:, :-1]  # Features
+y = data_encoded.iloc[:, -1]   # Target variable
+
+# Splitting the dataset into training and testing sets (adjust test_size as needed)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize SVM classifier
+svm_classifier = SVC(kernel='rbf', random_state=42)  # Adjust parameters (kernel, C, gamma, etc.)
+
+# Train the model
+svm_classifier.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = svm_classifier.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print(classification_report(y_test, y_pred))
+========================================================================================================================================================================================================
+EXTREME-GRADIENT BOOSTING:
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+import xgboost as xgb
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load the dataset
+file_path = '/content/drive/MyDrive/customer_market_basket_data.csv'  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# Identify categorical columns and perform One-Hot Encoding
+categorical_cols = data.select_dtypes(include=['object']).columns.tolist()
+data_encoded = pd.get_dummies(data, columns=categorical_cols)
+
+# Assuming the last column is the target variable and rest are features
+X = data_encoded.iloc[:, :-1]  # Features
+y = data_encoded.iloc[:, -1]   # Target variable
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize XGBoost classifier
+xgb_classifier = xgb.XGBClassifier(learning_rate=0.1, n_estimators=1, max_depth=100, random_state=42)  # Adjust parameters
+
+# Train the model
+xgb_classifier.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = xgb_classifier.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Display classification report
+print(classification_report(y_test, y_pred))
+
+
